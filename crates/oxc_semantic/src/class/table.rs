@@ -2,6 +2,8 @@ use oxc_index::IndexVec;
 use oxc_span::{CompactStr, Span};
 use oxc_syntax::class::{ClassId, ElementId, ElementKind};
 use rustc_hash::FxHashMap;
+use alloc::vec::Vec;
+use alloc::vec;
 
 use crate::node::AstNodeId;
 
@@ -54,7 +56,7 @@ pub struct ClassTable {
 
 impl ClassTable {
     pub fn ancestors(&self, class_id: ClassId) -> impl Iterator<Item = ClassId> + '_ {
-        std::iter::successors(Some(class_id), |class_id| self.parent_ids.get(class_id).copied())
+        core::iter::successors(Some(class_id), |class_id| self.parent_ids.get(class_id).copied())
     }
 
     pub fn len(&self) -> usize {

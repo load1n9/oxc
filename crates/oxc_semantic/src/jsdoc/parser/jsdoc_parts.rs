@@ -1,4 +1,6 @@
 use oxc_span::Span;
+use alloc::string::{String, ToString};
+use alloc::vec::Vec;
 
 /// Used for `JSDoc.comment` and `JSDocTag.comment`
 #[derive(Debug, Clone, Copy)]

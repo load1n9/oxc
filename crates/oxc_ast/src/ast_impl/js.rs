@@ -2,8 +2,8 @@
 // It is purely a marker for codegen used in `oxc_traverse`. See docs in that crate.
 
 use crate::ast::*;
-
-use std::{cell::Cell, fmt, hash::Hash};
+use alloc::string::ToString;
+use core::{cell::Cell, fmt, hash::Hash};
 
 use oxc_allocator::{Box, FromIn, Vec};
 use oxc_span::{Atom, CompactStr, GetSpan, SourceType, Span};
@@ -43,7 +43,7 @@ impl<'a> Program<'a> {
 }
 
 impl<'a> Hash for Program<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.source_type.hash(state);
         self.directives.hash(state);
         self.hashbang.hash(state);
@@ -289,7 +289,7 @@ impl<'a> IdentifierName<'a> {
 }
 
 impl<'a> Hash for IdentifierReference<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.name.hash(state);
     }
 }
@@ -310,7 +310,7 @@ impl<'a> IdentifierReference<'a> {
 }
 
 impl<'a> Hash for BindingIdentifier<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.name.hash(state);
     }
 }
@@ -690,7 +690,7 @@ impl<'a> BlockStatement<'a> {
 }
 
 impl<'a> Hash for BlockStatement<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.body.hash(state);
     }
 }
@@ -784,7 +784,7 @@ impl<'a> ForStatement<'a> {
 }
 
 impl<'a> Hash for ForStatement<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.init.hash(state);
         self.test.hash(state);
         self.update.hash(state);
@@ -812,7 +812,7 @@ impl<'a> ForInStatement<'a> {
 }
 
 impl<'a> Hash for ForInStatement<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.left.hash(state);
         self.right.hash(state);
         self.body.hash(state);
@@ -832,7 +832,7 @@ impl<'a> ForOfStatement<'a> {
 }
 
 impl<'a> Hash for ForOfStatement<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.r#await.hash(state);
         self.left.hash(state);
         self.right.hash(state);
@@ -855,7 +855,7 @@ impl<'a> SwitchStatement<'a> {
 }
 
 impl<'a> Hash for SwitchStatement<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.discriminant.hash(state);
         self.cases.hash(state);
     }
@@ -878,7 +878,7 @@ impl<'a> CatchClause<'a> {
 }
 
 impl<'a> Hash for CatchClause<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.param.hash(state);
         self.body.hash(state);
     }
@@ -1013,7 +1013,7 @@ impl<'a> Function<'a> {
 }
 
 impl<'a> Hash for Function<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.r#type.hash(state);
         self.id.hash(state);
         self.generator.hash(state);
@@ -1106,7 +1106,7 @@ impl<'a> ArrowFunctionExpression<'a> {
 }
 
 impl<'a> Hash for ArrowFunctionExpression<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.expression.hash(state);
         self.r#async.hash(state);
         self.params.hash(state);
@@ -1175,7 +1175,7 @@ impl<'a> Class<'a> {
 }
 
 impl<'a> Hash for Class<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.r#type.hash(state);
         self.decorators.hash(state);
         self.id.hash(state);
@@ -1349,7 +1349,7 @@ impl<'a> StaticBlock<'a> {
 }
 
 impl<'a> Hash for StaticBlock<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.body.hash(state);
     }
 }
@@ -1478,7 +1478,7 @@ impl<'a> fmt::Display for ModuleExportName<'a> {
         let s = match self {
             Self::IdentifierName(identifier) => identifier.name.to_string(),
             Self::IdentifierReference(identifier) => identifier.name.to_string(),
-            Self::StringLiteral(literal) => format!(r#""{}""#, literal.value),
+            Self::StringLiteral(literal) => alloc::format!(r#""{}""#, literal.value),
         };
         write!(f, "{s}")
     }

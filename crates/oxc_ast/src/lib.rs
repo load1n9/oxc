@@ -1,3 +1,4 @@
+#![cfg_attr(not(test), no_std)]
 #![allow(clippy::wildcard_imports)]
 // TODO: I'm not sure if it is a but or intentional but clippy needs this allowed both on this
 // module and the generated one.
@@ -11,7 +12,7 @@
 //!
 //! ## Cargo Features
 //! * `"serde"` enables support for serde serialization
-
+extern crate alloc;
 #[cfg(feature = "serialize")]
 mod serialize;
 

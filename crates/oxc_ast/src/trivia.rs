@@ -1,11 +1,10 @@
 //! Trivias such as comments and irregular whitespaces
 
-use std::{
+use core::{
     iter::FusedIterator,
     ops::{Bound, Deref, RangeBounds},
-    sync::Arc,
 };
-
+use alloc::sync::Arc;
 use oxc_span::Span;
 
 /// Single or multiline comment
@@ -43,7 +42,7 @@ impl CommentKind {
 }
 
 /// Sorted set of unique trivia comments, in ascending order by starting position.
-pub type SortedComments = Box<[Comment]>;
+pub type SortedComments = alloc::boxed::Box<[Comment]>;
 
 #[derive(Debug, Clone, Default)]
 pub struct Trivias(Arc<TriviasImpl>);
@@ -53,7 +52,7 @@ pub struct TriviasImpl {
     /// Unique comments, ordered by increasing span-start.
     comments: SortedComments,
 
-    irregular_whitespaces: Box<[Span]>,
+    irregular_whitespaces: alloc::boxed::Box<[Span]>,
 }
 
 impl Deref for Trivias {
@@ -66,7 +65,7 @@ impl Deref for Trivias {
 }
 
 impl Trivias {
-    pub fn new(comments: SortedComments, irregular_whitespaces: Vec<Span>) -> Trivias {
+    pub fn new(comments: SortedComments, irregular_whitespaces: alloc::vec::Vec<Span>) -> Trivias {
         Self(Arc::new(TriviasImpl {
             comments,
             irregular_whitespaces: irregular_whitespaces.into_boxed_slice(),

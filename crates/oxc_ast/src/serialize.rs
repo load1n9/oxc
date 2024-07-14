@@ -4,7 +4,7 @@ use serde::{
     ser::{SerializeSeq, Serializer},
     Serialize,
 };
-
+use alloc::string::ToString;
 use crate::ast::{
     ArrayAssignmentTarget, ArrayPattern, AssignmentTargetMaybeDefault, AssignmentTargetProperty,
     AssignmentTargetRest, BindingPattern, BindingPatternKind, BindingProperty, BindingRestElement,
@@ -17,9 +17,9 @@ pub struct EcmaFormatter;
 
 /// Serialize f64 with `ryu_js`
 impl serde_json::ser::Formatter for EcmaFormatter {
-    fn write_f64<W>(&mut self, writer: &mut W, value: f64) -> std::io::Result<()>
+    fn write_f64<W>(&mut self, writer: &mut W, value: f64) -> core2::io::Result<()>
     where
-        W: ?Sized + std::io::Write,
+        W: ?Sized + core2::io::Write,
     {
         use oxc_syntax::number::ToJsString;
         writer.write_all(value.to_js_string().as_bytes())
@@ -28,14 +28,14 @@ impl serde_json::ser::Formatter for EcmaFormatter {
 
 impl<'a> Program<'a> {
     /// # Panics
-    pub fn to_json(&self) -> String {
+    pub fn to_json(&self) -> alloc::string::String {
         let ser = self.serializer();
-        String::from_utf8(ser.into_inner()).unwrap()
+        alloc::string::String::from_utf8(ser.into_inner()).unwrap()
     }
 
     /// # Panics
-    pub fn serializer(&self) -> serde_json::Serializer<std::vec::Vec<u8>, EcmaFormatter> {
-        let buf = std::vec::Vec::new();
+    pub fn serializer(&self) -> serde_json::Serializer<alloc::vec::Vec<u8>, EcmaFormatter> {
+        let buf = alloc::vec::Vec::new();
         let mut ser = serde_json::Serializer::with_formatter(buf, EcmaFormatter);
         self.serialize(&mut ser).unwrap();
         ser

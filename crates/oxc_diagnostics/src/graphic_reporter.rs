@@ -5,8 +5,9 @@
 #![allow(dead_code)]
 
 /// origin file: https://github.com/zkat/miette/blob/75fea0935e495d0215518c80d32dd820910982e3/src/handlers/graphical.rs#L1
-use std::fmt::{self, Write};
+use core::fmt::{self, Write};
 
+use alloc::{borrow::ToOwned, string::ToString};
 use miette::{
     Diagnostic, LabeledSpan, ReportHandler, Severity, SourceCode, SourceSpan, SpanContents,
     ThemeCharacters,
@@ -205,7 +206,7 @@ impl GraphicalReportHandler {
             if let Some(word_separator) = self.word_separator {
                 opts = opts.word_separator(word_separator);
             }
-            if let Some(word_splitter) = self.word_splitter.clone() {
+            if let Some(word_splitter) = self.word_splitter {
                 opts = opts.word_splitter(word_splitter);
             }
 
@@ -224,12 +225,12 @@ impl GraphicalReportHandler {
         if self.links == LinkStyle::Link && diagnostic.url().is_some() {
             let url = diagnostic.url().unwrap(); // safe
             let code = if let Some(code) = diagnostic.code() {
-                format!("{} ", code)
+                alloc::format!("{} ", code)
             } else {
                 "".to_string()
             };
             let display_text = self.link_display_text.as_deref().unwrap_or("(link)");
-            let link = format!(
+            let link = alloc::format!(
                 "\u{1b}]8;;{}\u{1b}\\{}{}\u{1b}]8;;\u{1b}\\",
                 url,
                 code.style(severity_style),
@@ -257,8 +258,8 @@ impl GraphicalReportHandler {
             Some(Severity::Advice) => (self.theme.styles.advice, &self.theme.characters.advice),
         };
 
-        let initial_indent = format!("  {} ", severity_icon.style(severity_style));
-        let rest_indent = format!("  {} ", self.theme.characters.vbar.style(severity_style));
+        let initial_indent = alloc::format!("  {} ", severity_icon.style(severity_style));
+        let rest_indent = alloc::format!("  {} ", self.theme.characters.vbar.style(severity_style));
         let width = self.termwidth.saturating_sub(2);
         let mut opts = textwrap::Options::new(width)
             .initial_indent(&initial_indent)
@@ -267,11 +268,11 @@ impl GraphicalReportHandler {
         if let Some(word_separator) = self.word_separator {
             opts = opts.word_separator(word_separator);
         }
-        if let Some(word_splitter) = self.word_splitter.clone() {
+        if let Some(word_splitter) = self.word_splitter {
             opts = opts.word_splitter(word_splitter);
         }
 
-        let title = format!("{}", diagnostic.to_string().style(severity_style));
+        let title = alloc::format!("{}", diagnostic.to_string().style(severity_style));
         let title = textwrap::fill(&title, opts);
         writeln!(f, "{}", title)?;
 
@@ -339,15 +340,15 @@ impl GraphicalReportHandler {
     fn render_footer(&self, f: &mut impl fmt::Write, diagnostic: &(dyn Diagnostic)) -> fmt::Result {
         if let Some(help) = diagnostic.help() {
             let width = self.termwidth.saturating_sub(4);
-            let initial_indent = "  help: ".style(self.theme.styles.help).to_string();
+            let initial_indent = "  help: ".style(self.theme.styles.help);
             let mut opts = textwrap::Options::new(width)
-                .initial_indent(&initial_indent)
+                .initial_indent(&initial_indent.to_string())
                 .subsequent_indent("        ")
                 .break_words(self.break_words);
             if let Some(word_separator) = self.word_separator {
                 opts = opts.word_separator(word_separator);
             }
-            if let Some(word_splitter) = self.word_splitter.clone() {
+            if let Some(word_splitter) = self.word_splitter {
                 opts = opts.word_splitter(word_splitter);
             }
 
@@ -483,7 +484,7 @@ impl GraphicalReportHandler {
                     num_highlights += 1;
                 }
             }
-            max_gutter = std::cmp::max(max_gutter, num_highlights);
+            max_gutter = core::cmp::max(max_gutter, num_highlights);
         }
 
         // Oh and one more thing: We need to figure out how much room our line
@@ -530,7 +531,7 @@ impl GraphicalReportHandler {
         // Now it's time for the fun part--actually rendering everything!
         for line in &lines {
             // Line number, appropriately padded.
-            self.write_linum(f, linum_width, line.line_number)?;
+            self.write_linum(f, linum_width, line.to_owned().line_number)?;
 
             // Then, we need to print the gutter, along with any fly-bys We
             // have separate gutters depending on whether we're on the actual
@@ -969,7 +970,7 @@ impl GraphicalReportHandler {
                 let num_left = vbar_offset - start;
                 let num_right = end - vbar_offset - 1;
                 underlines.push_str(
-                    &format!(
+                    &alloc::format!(
                         "{:width$}{}{}{}",
                         "",
                         chars.underline.to_string().repeat(num_left),
@@ -986,7 +987,7 @@ impl GraphicalReportHandler {
                     .style(hl.style)
                     .to_string(),
                 );
-                highest = std::cmp::max(highest, end);
+                highest = core::cmp::max(highest, end);
 
                 (hl, vbar_offset)
             })
@@ -1071,13 +1072,13 @@ impl GraphicalReportHandler {
             } else {
                 let lines = match render_mode {
                     LabelRenderMode::SingleLine => {
-                        format!("{}{} {}", chars.lbot, chars.hbar.to_string().repeat(2), label,)
+                        alloc::format!("{}{} {}", chars.lbot, chars.hbar.to_string().repeat(2), label,)
                     }
                     LabelRenderMode::MultiLineFirst => {
-                        format!("{}{}{} {}", chars.lbot, chars.hbar, chars.rcross, label,)
+                        alloc::format!("{}{}{} {}", chars.lbot, chars.hbar, chars.rcross, label,)
                     }
                     LabelRenderMode::MultiLineRest => {
-                        format!("  {} {}", chars.vbar, label,)
+                        alloc::format!("  {} {}", chars.vbar, label,)
                     }
                 };
                 writeln!(f, "{}", lines.style(hl.style))?;
@@ -1117,7 +1118,7 @@ impl GraphicalReportHandler {
         let context_data = source
             .read_span(context_span, self.context_lines, self.context_lines)
             .map_err(|_| fmt::Error)?;
-        let context = std::str::from_utf8(context_data.data()).expect("Bad utf8 detected");
+        let context = core::str::from_utf8(context_data.data()).expect("Bad utf8 detected");
         let mut line = context_data.line();
         let mut column = context_data.column();
         let mut offset = context_data.span().offset();

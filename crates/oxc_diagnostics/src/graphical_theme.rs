@@ -4,7 +4,6 @@
 #![allow(dead_code)]
 
 /// origin file: https://github.com/zkat/miette/blob/75fea0935e495d0215518c80d32dd820910982e3/src/handlers/theme.rs
-use std::io::IsTerminal;
 
 use miette::ThemeCharacters;
 use owo_colors::Style;
@@ -62,8 +61,8 @@ impl GraphicalTheme {
 
 impl Default for GraphicalTheme {
     fn default() -> Self {
-        match std::env::var("NO_COLOR") {
-            _ if !std::io::stdout().is_terminal() || !std::io::stderr().is_terminal() => {
+        match core::env::var("NO_COLOR") {
+            _ if !core2::io::stdout() || !std::io::stderr() => {
                 Self::none()
             }
             Ok(string) if string != "0" => Self::unicode_nocolor(),
@@ -110,7 +109,7 @@ impl ThemeStyles {
             help: style().fg_rgb::<106, 159, 181>(),
             link: style().fg_rgb::<92, 157, 255>().bold(),
             linum: style().dimmed(),
-            highlights: vec![
+            highlights: alloc::vec![
                 style().fg_rgb::<246, 87, 248>(),
                 style().fg_rgb::<30, 201, 212>(),
                 style().fg_rgb::<145, 246, 111>(),
@@ -127,7 +126,7 @@ impl ThemeStyles {
             help: style().cyan(),
             link: style().cyan().underline().bold(),
             linum: style().dimmed(),
-            highlights: vec![
+            highlights: alloc::vec![
                 style().magenta().bold(),
                 style().yellow().bold(),
                 style().green().bold(),
@@ -144,7 +143,7 @@ impl ThemeStyles {
             help: style(),
             link: style(),
             linum: style(),
-            highlights: vec![style()],
+            highlights: alloc::vec![style()],
         }
     }
 }

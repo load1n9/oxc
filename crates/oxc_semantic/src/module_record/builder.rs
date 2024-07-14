@@ -1,5 +1,5 @@
-use std::path::PathBuf;
-
+use unix_path::PathBuf;
+use alloc::vec::Vec;
 #[allow(clippy::wildcard_imports)]
 use oxc_ast::{ast::*, syntax_directed_operations::BoundNames};
 use oxc_span::{CompactStr, GetSpan, Span};

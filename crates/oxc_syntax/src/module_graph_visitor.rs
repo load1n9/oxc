@@ -1,4 +1,6 @@
-use std::{marker::PhantomData, path::PathBuf, sync::Arc};
+use alloc::{boxed::Box, sync::Arc};
+use core::marker::PhantomData;
+use unix_path::PathBuf;
 
 use oxc_span::CompactStr;
 use rustc_hash::FxHashSet;
@@ -117,7 +119,7 @@ impl<'a, T> Default for ModuleGraphVisitorBuilder<'a, T> {
             event: None,
             enter: None,
             leave: None,
-            _marker: std::marker::PhantomData {},
+            _marker: core::marker::PhantomData {},
         }
     }
 }

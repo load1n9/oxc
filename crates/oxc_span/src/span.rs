@@ -1,10 +1,12 @@
 // Silence erroneous warnings from Rust Analyzer for `#[derive(Tsify)]`
 #![allow(non_snake_case)]
 
-use std::{
+use core::{
     hash::{Hash, Hasher},
     ops::{Index, IndexMut, Range},
 };
+
+use alloc::string::String;
 
 use miette::{LabeledSpan, SourceOffset, SourceSpan};
 #[cfg(feature = "serialize")]

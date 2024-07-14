@@ -1,4 +1,6 @@
-use std::{
+#![cfg_attr(not(test), no_std)]
+
+use core::{
     convert::From,
     ops::{Deref, DerefMut},
 };
@@ -6,6 +8,7 @@ use std::{
 mod arena;
 mod convert;
 
+extern crate alloc;
 use bumpalo::Bump;
 
 pub use arena::{Box, String, Vec};

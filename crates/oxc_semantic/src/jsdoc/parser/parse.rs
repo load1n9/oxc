@@ -1,5 +1,6 @@
 use oxc_span::Span;
-
+use alloc::vec;
+use alloc::vec::Vec;
 use super::{
     jsdoc_parts::{JSDocCommentPart, JSDocTagKindPart},
     jsdoc_tag::JSDocTag,

@@ -10,7 +10,7 @@
 // Silence erroneous warnings from Rust Analyser for `#[derive(Tsify)]`
 #![allow(non_snake_case)]
 
-use std::{cell::Cell, hash::Hash};
+use core::{cell::Cell, hash::Hash};
 
 use oxc_allocator::{Box, Vec};
 use oxc_ast_macros::visited_node;

@@ -4,6 +4,7 @@ use oxc_ast::{
     syntax_directed_operations::{IsSimpleParameterList, PropName},
     AstKind,
 };
+use alloc::format;
 use oxc_diagnostics::{LabeledSpan, OxcDiagnostic};
 use oxc_span::{GetSpan, ModuleKind, Span};
 use oxc_syntax::{

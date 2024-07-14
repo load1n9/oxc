@@ -36,5 +36,5 @@ fn format_json(diagnostics: &mut Vec<Error>) {
         })
         .collect::<Vec<_>>()
         .join(",\n");
-    println!("[\n{messages}\n]");
+    // println!("[\n{messages}\n]");
 }

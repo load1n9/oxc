@@ -1,7 +1,7 @@
 //! Bumpalo memory arena utilities
 //! Copied from [jsparagus](https://github.com/mozilla-spidermonkey/jsparagus/blob/master/crates/ast/src/arena.rs)
 
-use std::{
+use core::{
     self,
     fmt::{self, Debug, Formatter},
     hash::{Hash, Hasher},
@@ -157,7 +157,7 @@ impl<'alloc, T> IntoIterator for Vec<'alloc, T> {
 }
 
 impl<'alloc, T> IntoIterator for &'alloc Vec<'alloc, T> {
-    type IntoIter = std::slice::Iter<'alloc, T>;
+    type IntoIter = core::slice::Iter<'alloc, T>;
     type Item = &'alloc T;
 
     fn into_iter(self) -> Self::IntoIter {

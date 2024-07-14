@@ -24,3 +24,5 @@ miette = { workspace = true }
 unicode-width = { workspace = true }
 owo-colors    = { workspace = true }
 textwrap      = { workspace = true }
+unix_path = { version="1.0.1", features = ["alloc", "serde"] }
+core2 = "0.4.0"

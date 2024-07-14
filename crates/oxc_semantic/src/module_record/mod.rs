@@ -4,8 +4,8 @@ pub use builder::ModuleRecordBuilder;
 
 #[cfg(test)]
 mod module_record_tests {
-    use std::{path::PathBuf, sync::Arc};
-
+    use std::sync::Arc;
+    use unix_path::PathBuf;
     use oxc_allocator::Allocator;
     use oxc_parser::Parser;
     use oxc_span::{SourceType, Span};

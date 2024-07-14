@@ -1,8 +1,8 @@
 // Silence erroneous warnings from Rust Analyser for `#[derive(Tsify)]`
 #![allow(non_snake_case)]
 
-use std::path::Path;
-
+// use core2::path::Path;
+use alloc::string::String;
 #[cfg(feature = "serialize")]
 use serde::Serialize;
 #[cfg(feature = "serialize")]
@@ -56,6 +56,7 @@ pub enum LanguageVariant {
     Jsx,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 pub struct UnknownExtension(pub String);
 
@@ -158,12 +159,13 @@ impl SourceType {
         self
     }
 
-    /// Converts file path to `SourceType`
-    /// returns `SourceTypeError::UnknownExtension` if:
-    ///   * there is no file name
-    ///   * the file extension is not one of "js", "mjs", "cjs", "jsx", "ts", "mts", "cts", "tsx"
-    /// # Errors
-    pub fn from_path<P: AsRef<Path>>(path: P) -> Result<Self, UnknownExtension> {
+    ///  Converts file path to `SourceType`
+    ///  returns `SourceTypeError::UnknownExtension` if:
+    ///    * there is no file name
+    ///    * the file extension is not one of "js", "mjs", "cjs", "jsx", "ts", "mts", "cts", "tsx"
+    ///  # Errors
+    #[cfg(feature = "std")]
+    pub fn from_path<P: AsRef<std::path::Path>>(path: P) -> Result<Self, UnknownExtension> {
         let file_name = path
             .as_ref()
             .file_name()

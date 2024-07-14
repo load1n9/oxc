@@ -1,11 +1,12 @@
-use std::hash::BuildHasherDefault;
+use core::hash::BuildHasherDefault;
 
 use indexmap::IndexMap;
 use oxc_index::IndexVec;
 use oxc_span::CompactStr;
 pub use oxc_syntax::scope::{ScopeFlags, ScopeId};
 use rustc_hash::{FxHashMap, FxHasher};
-
+use alloc::vec::Vec;
+use alloc::vec;
 use crate::{reference::ReferenceId, symbol::SymbolId, AstNodeId};
 
 type FxIndexMap<K, V> = IndexMap<K, V, BuildHasherDefault<FxHasher>>;
@@ -39,7 +40,7 @@ impl ScopeTree {
     }
 
     pub fn ancestors(&self, scope_id: ScopeId) -> impl Iterator<Item = ScopeId> + '_ {
-        std::iter::successors(Some(scope_id), |scope_id| self.parent_ids[*scope_id])
+        core::iter::successors(Some(scope_id), |scope_id| self.parent_ids[*scope_id])
     }
 
     pub fn descendants(&self, scope_id: ScopeId) -> impl Iterator<Item = ScopeId> + '_ {

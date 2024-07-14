@@ -1,5 +1,6 @@
 #![allow(non_snake_case)] // Silence erroneous warnings from Rust Analyser for `#[derive(Tsify)]`
-
+use alloc::vec::Vec;
+use alloc::vec;
 use oxc_ast::ast::Expression;
 use oxc_index::IndexVec;
 use oxc_span::{CompactStr, Span};

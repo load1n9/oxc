@@ -1,3 +1,6 @@
+use alloc::string::String;
+use alloc::string::ToString;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum NumberBase {
     Float,

@@ -7,7 +7,7 @@
 // Silence erroneous warnings from Rust Analyser for `#[derive(Tsify)]`
 #![allow(non_snake_case)]
 
-use std::hash::Hash;
+use core::hash::Hash;
 
 use bitflags::bitflags;
 use oxc_ast_macros::visited_node;

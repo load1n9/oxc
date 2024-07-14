@@ -33,7 +33,7 @@ ryu-js       = { workspace = true, optional = true }
 serde        = { workspace = true, features = ["derive"], optional = true }
 tsify        = { workspace = true, optional = true }
 wasm-bindgen = { workspace = true, optional = true }
-
+unix_path = { version="1.0.1", features = ["alloc", "serde"] }
 [features]
 default      = []
 to_js_string = ["dep:ryu-js"]

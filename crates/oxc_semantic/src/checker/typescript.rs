@@ -3,6 +3,7 @@ use oxc_ast::syntax_directed_operations::{BoundNames, PropName};
 use oxc_ast::{ast::*, AstKind};
 use oxc_diagnostics::OxcDiagnostic;
 use oxc_span::{Atom, GetSpan, Span};
+use alloc::format;
 use rustc_hash::FxHashMap;
 
 use crate::{builder::SemanticBuilder, diagnostics::redeclaration};

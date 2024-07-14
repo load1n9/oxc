@@ -1,5 +1,5 @@
-use std::{borrow::Cow, collections::HashMap};
-
+use alloc::borrow::Cow;
+use alloc::format;
 use super::{DiagnosticReporter, Info};
 use crate::{Error, Severity};
 
@@ -37,7 +37,7 @@ fn format_checkstyle(diagnostics: &[Error]) {
                      Severity::Error => "error",
                      _ => "warning",
                  };
-                 let message = rule_id.as_ref().map_or_else(|| xml_escape(message), |rule_id| Cow::Owned(format!("{} ({rule_id})", xml_escape(message))));
+                 let message = rule_id.as_ref().map_or_else(|| xml_escape(message.as_str()), |rule_id| Cow::Owned(format!("{} ({rule_id})", xml_escape(message))));
                  let source = rule_id.as_ref().map_or_else(|| Cow::Borrowed(""), |rule_id| Cow::Owned(format!("eslint.rules.{rule_id}")));
                  let line = format!(r#"<error line="{line}" column="{column}" severity="{severity}" message="{message}" source="{source}" />"#);
                  acc.push_str(&line);
@@ -46,9 +46,9 @@ fn format_checkstyle(diagnostics: &[Error]) {
          let filename = &infos[0].filename;
          format!(r#"<file name="{filename}">{messages}</file>"#)
      }).collect::<Vec<_>>().join(" ");
-    println!(
-        r#"<?xml version="1.0" encoding="utf-8"?><checkstyle version="4.3">{messages}</checkstyle>"#
-    );
+    // println!(
+    //     r#"<?xml version="1.0" encoding="utf-8"?><checkstyle version="4.3">{messages}</checkstyle>"#
+    // );
 }
 
 /// <https://github.com/tafia/quick-xml/blob/6e34a730853fe295d68dc28460153f08a5a12955/src/escapei.rs#L84-L86>

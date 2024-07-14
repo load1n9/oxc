@@ -138,7 +138,7 @@ impl<'a> AstNodes<'a> {
     /// pointed to by `node_id`. The last node will usually be a `Program`.
     pub fn ancestors(&self, ast_node_id: AstNodeId) -> impl Iterator<Item = AstNodeId> + '_ {
         let parent_ids = &self.parent_ids;
-        std::iter::successors(Some(ast_node_id), |node_id| parent_ids[*node_id])
+        core::iter::successors(Some(ast_node_id), |node_id| parent_ids[*node_id])
     }
 
     /// Create and add an `AstNode` to the `AstNodes` tree and returns its `AstNodeId`.

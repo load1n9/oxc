@@ -1,4 +1,4 @@
-use std::io::{BufWriter, Stdout, Write};
+use core2::io::{BufWriter, Stdout, Write};
 
 use super::{writer, DiagnosticReporter};
 use crate::{Error, GraphicalReportHandler};

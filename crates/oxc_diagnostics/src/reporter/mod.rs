@@ -3,8 +3,8 @@ mod github;
 mod graphical;
 mod json;
 mod unix;
-
-use std::io::{BufWriter, Stdout};
+use alloc::string::ToString;
+use core2::io::{BufWriter, Stdout};
 
 pub use self::{
     checkstyle::CheckstyleReporter, github::GithubReporter, graphical::GraphicalReporter,
@@ -15,7 +15,7 @@ use crate::{Error, Severity};
 /// stdio is blocked by LineWriter, use a BufWriter to reduce syscalls.
 /// See `https://github.com/rust-lang/rust/issues/60673`.
 fn writer() -> BufWriter<Stdout> {
-    BufWriter::new(std::io::stdout())
+    BufWriter::new(core2::io::stdout())
 }
 
 pub trait DiagnosticReporter {

@@ -1,7 +1,8 @@
 //! Declare symbol for `BindingIdentifier`s
 
-use std::borrow::Cow;
-
+use alloc::borrow::Cow;
+use alloc::vec;
+use alloc::string::ToString;
 #[allow(clippy::wildcard_imports)]
 use oxc_ast::ast::*;
 use oxc_ast::{

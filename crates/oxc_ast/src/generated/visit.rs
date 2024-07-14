@@ -16,7 +16,7 @@
     clippy::match_wildcard_for_single_variants
 )]
 
-use std::cell::Cell;
+use core::cell::Cell;
 
 use oxc_allocator::Vec;
 use oxc_syntax::scope::{ScopeFlags, ScopeId};
@@ -40,7 +40,7 @@ pub trait Visit<'a>: Sized {
         // But honestly, I'm not really sure if this is safe.
         #[allow(unsafe_code)]
         unsafe {
-            std::mem::transmute(t)
+            core::mem::transmute(t)
         }
     }
 

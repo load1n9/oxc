@@ -1,16 +1,22 @@
 //! Diagnostics Wrapper
 //! Exports `miette`
+#![no_std]
+#![feature(error_in_core)]
 
 mod graphic_reporter;
 mod graphical_theme;
 mod reporter;
 mod service;
-
-use std::{
-    borrow::Cow,
+extern crate alloc;
+use alloc::vec;
+use alloc::vec::Vec;
+use alloc::boxed::Box;
+use core::{
     fmt::{self, Display},
     ops::Deref,
 };
+
+use alloc::borrow::Cow;
 
 pub use crate::{
     graphic_reporter::GraphicalReportHandler,
@@ -21,7 +27,7 @@ pub use crate::{
 pub type Error = miette::Error;
 pub type Severity = miette::Severity;
 
-pub type Result<T> = std::result::Result<T, OxcDiagnostic>;
+pub type Result<T> = core::result::Result<T, OxcDiagnostic>;
 
 use miette::{Diagnostic, SourceCode};
 pub use miette::{LabeledSpan, NamedSource};
@@ -50,12 +56,12 @@ pub struct OxcDiagnosticInner {
 }
 
 impl fmt::Display for OxcDiagnostic {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", &self.message)
     }
 }
 
-impl std::error::Error for OxcDiagnostic {}
+impl core::error::Error for OxcDiagnostic {}
 
 impl Diagnostic for OxcDiagnostic {
     fn help<'a>(&'a self) -> Option<Box<dyn Display + 'a>> {

@@ -1,4 +1,6 @@
-use std::cell::OnceCell;
+use core::cell::OnceCell;
+use alloc::vec::Vec;
+
 
 use oxc_span::Span;
 

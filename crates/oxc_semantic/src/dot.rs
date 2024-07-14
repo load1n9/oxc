@@ -4,12 +4,20 @@ use oxc_ast::{
 };
 use oxc_cfg::{
     graph::{
-        dot::{Config, Dot},
-        visit::EdgeRef,
+    dot::{Config, Dot},
+    visit::EdgeRef,
     },
-    BasicBlock, ControlFlowGraph, EdgeType, Instruction, InstructionKind, IterationInstructionKind,
-    LabeledInstruction, ReturnInstructionKind,
+    BasicBlock,
+    ControlFlowGraph,
+    EdgeType,
+    Instruction,
+    InstructionKind,
+    IterationInstructionKind,
+    LabeledInstruction,
+    ReturnInstructionKind,
 };
+use alloc::format;
+use alloc::string::{String, ToString};
 use oxc_syntax::node::AstNodeId;
 
 use crate::{AstNode, AstNodes};

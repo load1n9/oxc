@@ -1,5 +1,6 @@
 //! Common code for JavaScript Syntax
-
+#![cfg_attr(not(test), no_std)]
+extern crate alloc;
 pub mod class;
 pub mod identifier;
 pub mod keyword;

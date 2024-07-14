@@ -5,7 +5,7 @@
     clippy::unused_self,
 )]
 
-use std::mem;
+use core::mem;
 
 use oxc_allocator::{Allocator, Box, String, Vec};
 use oxc_span::{Atom, GetSpan, Span};
@@ -67,7 +67,7 @@ impl<'a> AstBuilder<'a> {
         // SAFETY: Not safe (see above)
         #[allow(unsafe_code)]
         unsafe {
-            std::mem::transmute_copy(src)
+            core::mem::transmute_copy(src)
         }
     }
 

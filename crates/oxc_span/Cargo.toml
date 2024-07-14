@@ -21,7 +21,6 @@ doctest = false
 
 [dependencies]
 oxc_allocator = { workspace = true }
-
 miette      = { workspace = true }
 compact_str = { workspace = true }
 
@@ -30,5 +29,6 @@ wasm-bindgen = { workspace = true, optional = true }
 serde        = { workspace = true, features = ["derive"], optional = true }
 
 [features]
-default   = []
+default   = ["std"]
 serialize = ["compact_str/serde", "dep:serde", "dep:tsify", "dep:wasm-bindgen"]
+std = []

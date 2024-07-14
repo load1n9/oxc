@@ -942,8 +942,8 @@ macro_rules! discriminant {
     ($ty:ident :: $variant:ident) => {{
         #[allow(unsafe_code, clippy::undocumented_unsafe_blocks)]
         unsafe {
-            let t = std::mem::ManuallyDrop::new($ty::$variant(oxc_allocator::Box::dangling()));
-            *(std::ptr::addr_of!(t).cast::<u8>())
+            let t = core::mem::ManuallyDrop::new($ty::$variant(oxc_allocator::Box::dangling()));
+            *(core::ptr::addr_of!(t).cast::<u8>())
         }
     }};
 }

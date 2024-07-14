@@ -8,7 +8,7 @@
 
 use crate::ast::*;
 
-use std::{
+use core::{
     fmt,
     hash::{Hash, Hasher},
 };

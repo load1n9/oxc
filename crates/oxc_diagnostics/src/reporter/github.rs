@@ -1,7 +1,6 @@
-use std::{
-    borrow::Cow,
-    io::{BufWriter, Stdout, Write},
-};
+use alloc::borrow::Cow;
+use alloc::format;
+use core2::io::{BufWriter, Stdout, Write};
 
 use super::{writer, DiagnosticReporter, Info};
 use crate::{Error, Severity};

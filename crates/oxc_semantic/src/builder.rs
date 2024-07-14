@@ -1,10 +1,10 @@
 //! Semantic Builder
 
-use std::{
-    cell::{Cell, RefCell},
-    path::PathBuf,
-    sync::Arc,
-};
+use alloc::sync::Arc;
+use alloc::vec::Vec;
+use alloc::vec;
+use core::cell::{Cell, RefCell};
+use unix_path::PathBuf;
 
 #[allow(clippy::wildcard_imports)]
 use oxc_ast::{ast::*, AstKind, Trivias, Visit};

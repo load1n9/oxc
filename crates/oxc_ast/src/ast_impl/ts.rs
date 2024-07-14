@@ -6,7 +6,7 @@
 // NB: `#[visited_node]` attribute on AST nodes does not do anything to the code in this file.
 // It is purely a marker for codegen used in `oxc_traverse`. See docs in that crate.
 
-use std::{cell::Cell, hash::Hash};
+use core::{cell::Cell, hash::Hash};
 
 use oxc_allocator::Vec;
 use oxc_span::{Atom, Span};
@@ -26,7 +26,7 @@ impl<'a> TSEnumDeclaration<'a> {
 }
 
 impl<'a> Hash for TSEnumDeclaration<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.id.hash(state);
         self.members.hash(state);
         self.r#const.hash(state);
@@ -118,7 +118,7 @@ impl<'a> TSTypeParameter<'a> {
 }
 
 impl<'a> Hash for TSTypeParameter<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.name.hash(state);
         self.constraint.hash(state);
         self.default.hash(state);
@@ -161,7 +161,7 @@ impl<'a> TSModuleDeclaration<'a> {
 }
 
 impl<'a> Hash for TSModuleDeclaration<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
         self.id.hash(state);
         self.body.hash(state);
         self.kind.hash(state);

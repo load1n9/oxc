@@ -1,9 +1,10 @@
-use std::{
-    borrow::{Borrow, Cow},
+use core::{
+    borrow::Borrow,
     fmt, hash,
     ops::{Deref, Index},
 };
 
+use alloc::{string::String, borrow::Cow};
 use compact_str::CompactString;
 #[cfg(feature = "serialize")]
 use serde::{Serialize, Serializer};

@@ -1,7 +1,5 @@
-use std::{
-    borrow::Cow,
-    io::{BufWriter, Stdout, Write},
-};
+use alloc::borrow::Cow;
+use core2::io::{BufWriter, Stdout, Write};
 
 use super::{writer, DiagnosticReporter, Info};
 use crate::{Error, Severity};
@@ -21,7 +19,7 @@ impl DiagnosticReporter for UnixReporter {
     fn finish(&mut self) {
         let total = self.total;
         if total > 0 {
-            let line = format!("\n{total} problem{}\n", if total > 1 { "s" } else { "" });
+            let line = alloc::format!("\n{total} problem{}\n", if total > 1 { "s" } else { "" });
             self.writer.write_all(line.as_bytes()).unwrap();
         }
         self.writer.flush().unwrap();
@@ -45,6 +43,6 @@ fn format_unix(diagnostic: &Error) -> String {
         _ => "Warning",
     };
     let rule_id =
-        rule_id.map_or_else(|| Cow::Borrowed(""), |rule_id| Cow::Owned(format!("/{rule_id}")));
-    format!("{filename}:{line}:{column}: {message} [{severity}{rule_id}]\n")
+        rule_id.map_or_else(|| Cow::Borrowed(""), |rule_id| Cow::Owned(alloc::format!("/{rule_id}")));
+    alloc::format!("{filename}:{line}:{column}: {message} [{severity}{rule_id}]\n")
 }

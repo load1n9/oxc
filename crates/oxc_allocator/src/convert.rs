@@ -1,6 +1,7 @@
 #![allow(clippy::inline_always)]
 
 use crate::{Allocator, Box};
+use alloc::string::String;
 
 /// This trait works similarly to the standard library `From` trait, It comes with a similar
 /// implementation containing blanket implementation for `IntoIn`, reflective implementation and a

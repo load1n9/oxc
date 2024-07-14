@@ -1,6 +1,8 @@
 use oxc_ast::ast::LabeledStatement;
 use oxc_span::Span;
 use rustc_hash::FxHashSet;
+use alloc::vec::Vec;
+use alloc::vec;
 
 use crate::AstNodeId;
 

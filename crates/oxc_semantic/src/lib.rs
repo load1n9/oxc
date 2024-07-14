@@ -1,3 +1,4 @@
+#![cfg_attr(not(test), no_std)]
 mod binder;
 mod builder;
 mod checker;
@@ -11,9 +12,11 @@ mod reference;
 mod scope;
 mod symbol;
 
+extern crate alloc;
+
 pub mod dot;
 
-use std::sync::Arc;
+use alloc::sync::Arc;
 
 pub use builder::{SemanticBuilder, SemanticBuilderReturn};
 use class::ClassTable;

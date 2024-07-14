@@ -5,8 +5,8 @@ use oxc_span::{Atom, Span};
 
 // 1.2 JSX Elements
 
-impl<'a> std::fmt::Display for JSXNamespacedName<'a> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl<'a> core::fmt::Display for JSXNamespacedName<'a> {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}:{}", self.namespace.name, self.property.name)
     }
 }

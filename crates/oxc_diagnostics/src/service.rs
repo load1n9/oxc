@@ -1,8 +1,7 @@
-use std::{
-    cell::Cell,
-    path::{Path, PathBuf},
-    sync::{mpsc, Arc},
-};
+use core::cell::Cell;
+
+use alloc::{string::ToString, sync::Arc};
+use unix_path::{Path, PathBuf};
 
 use crate::{
     reporter::{
@@ -111,7 +110,7 @@ impl DiagnosticService {
         source_text: &str,
         diagnostics: Vec<OxcDiagnostic>,
     ) -> (PathBuf, Vec<Error>) {
-        let source = Arc::new(NamedSource::new(path.to_string_lossy(), source_text.to_owned()));
+        let source = Arc::new(NamedSource::new(path.to_string_lossy(), source_text.to_string()));
         let diagnostics = diagnostics
             .into_iter()
             .map(|diagnostic| diagnostic.with_source_code(Arc::clone(&source)))
@@ -154,9 +153,9 @@ impl DiagnosticService {
                     if err_str.lines().any(|line| line.len() >= 400) {
                         let minified_diagnostic = Error::new(
                             OxcDiagnostic::warn("File is too long to fit on the screen")
-                                .with_help(format!("{path:?} seems like a minified file")),
+                                .with_help(alloc::format!("{path:?} seems like a minified file")),
                         );
-                        err_str = format!("{minified_diagnostic:?}");
+                        err_str = alloc::format!("{minified_diagnostic:?}");
                         output = err_str;
                         break;
                     }

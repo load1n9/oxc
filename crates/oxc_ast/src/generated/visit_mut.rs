@@ -16,7 +16,7 @@
     clippy::match_wildcard_for_single_variants
 )]
 
-use std::cell::Cell;
+use core::cell::Cell;
 
 use oxc_allocator::Vec;
 use oxc_syntax::scope::{ScopeFlags, ScopeId};

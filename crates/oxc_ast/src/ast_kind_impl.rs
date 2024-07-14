@@ -1,5 +1,5 @@
 use oxc_span::Atom;
-
+use alloc::format;
 use super::{ast::*, AstKind};
 
 impl<'a> AstKind<'a> {
@@ -148,7 +148,7 @@ impl<'a> AstKind<'a> {
     ///
     /// Note that this method does not exist in release builds. Do not include
     /// usage of this method within your code.
-    pub fn debug_name(&self) -> std::borrow::Cow<str> {
+    pub fn debug_name(&self) -> alloc::borrow::Cow<str> {
         match self {
             Self::Program(_) => "Program".into(),
             Self::Directive(d) => d.directive.as_ref().into(),

@@ -1,5 +1,5 @@
-use std::collections::BTreeMap;
-
+use alloc::collections::BTreeMap;
+use alloc::vec::Vec;
 use oxc_ast::{AstKind, Comment, Trivias};
 use oxc_span::{GetSpan, Span};
 use rustc_hash::FxHashSet;

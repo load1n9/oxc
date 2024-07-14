@@ -1,6 +1,11 @@
 //! [ECMAScript Module Record](https://tc39.es/ecma262/#sec-abstract-module-records)
 
-use std::{fmt, hash::BuildHasherDefault, path::PathBuf, sync::Arc};
+use core::{fmt, hash::BuildHasherDefault};
+use alloc::sync::Arc;
+use alloc::vec::Vec;
+use alloc::string::ToString;
+use alloc::format;
+use unix_path::PathBuf;
 
 use dashmap::DashMap;
 use oxc_span::{CompactStr, Span};
@@ -88,7 +93,7 @@ impl ModuleRecord {
 }
 
 impl fmt::Debug for ModuleRecord {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> core::fmt::Result {
         // recursively formatting loaded modules can crash when the module graph is cyclic
         let loaded_modules = self
             .loaded_modules
