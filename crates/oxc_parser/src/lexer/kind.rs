@@ -1,6 +1,6 @@
 //! ECMAScript Token Kinds
 
-use std::fmt;
+use core::fmt;
 
 #[derive(Debug, Default, Clone, Copy, Eq, PartialEq)]
 #[non_exhaustive]

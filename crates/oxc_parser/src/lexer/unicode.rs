@@ -1,3 +1,4 @@
+use alloc::format;
 use oxc_allocator::String;
 use oxc_syntax::identifier::{
     is_identifier_part, is_identifier_start, is_identifier_start_unicode,

@@ -3,7 +3,7 @@ mod github;
 mod graphical;
 mod json;
 mod unix;
-use alloc::string::ToString;
+use alloc::string::{String, ToString};
 use core2::io::{BufWriter, Stdout};
 
 pub use self::{

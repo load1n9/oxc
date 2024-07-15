@@ -1,5 +1,5 @@
 use core2::io::{BufWriter, Stdout, Write};
-
+use alloc::string::String;
 use super::{writer, DiagnosticReporter};
 use crate::{Error, GraphicalReportHandler};
 

@@ -1,15 +1,24 @@
 use core::cell::Cell;
 
-use alloc::{string::ToString, sync::Arc};
-use unix_path::{Path, PathBuf};
-
 use crate::{
     reporter::{
-        CheckstyleReporter, DiagnosticReporter, GithubReporter, GraphicalReporter, JsonReporter,
+        CheckstyleReporter,
+        DiagnosticReporter,
+        GithubReporter,
+        //  GraphicalReporter,
+        JsonReporter,
         UnixReporter,
     },
-    Error, NamedSource, OxcDiagnostic, Severity,
+    Error,
+    NamedSource,
+    OxcDiagnostic,
+    // Severity,
 };
+use alloc::boxed::Box;
+use alloc::vec::Vec;
+use alloc::{string::ToString, sync::Arc};
+use thingbuf::mpsc;
+use unix_path::{Path, PathBuf};
 
 pub type DiagnosticTuple = (PathBuf, Vec<Error>);
 pub type DiagnosticSender = mpsc::Sender<Option<DiagnosticTuple>>;
@@ -35,24 +44,24 @@ pub struct DiagnosticService {
     errors_count: Cell<usize>,
 
     sender: DiagnosticSender,
-    receiver: DiagnosticReceiver,
+    pub receiver: DiagnosticReceiver,
 }
 
-impl Default for DiagnosticService {
-    fn default() -> Self {
-        let (sender, receiver) = mpsc::channel();
-        Self {
-            reporter: Box::<GraphicalReporter>::default(),
-            quiet: false,
-            silent: false,
-            max_warnings: None,
-            warnings_count: Cell::new(0),
-            errors_count: Cell::new(0),
-            sender,
-            receiver,
-        }
-    }
-}
+// impl Default for DiagnosticService {
+//     fn default() -> Self {
+//         let (sender, receiver) = mpsc::channel(4usize);
+//         Self {
+//             reporter: Box::<GraphicalReporter>::default(),
+//             quiet: false,
+//             silent: false,
+//             max_warnings: None,
+//             warnings_count: Cell::new(0),
+//             errors_count: Cell::new(0),
+//             sender,
+//             receiver,
+//         }
+//     }
+// }
 
 impl DiagnosticService {
     pub fn set_json_reporter(&mut self) {
@@ -120,50 +129,50 @@ impl DiagnosticService {
 
     /// # Panics
     ///
-    /// * When the writer fails to write
+    /// * TODO: let this work
     pub fn run(&mut self) {
-        while let Ok(Some((path, diagnostics))) = self.receiver.recv() {
-            let mut output = String::new();
-            for diagnostic in diagnostics {
-                let severity = diagnostic.severity();
-                let is_warning = severity == Some(Severity::Warning);
-                let is_error = severity == Some(Severity::Error) || severity.is_none();
-                if is_warning || is_error {
-                    if is_warning {
-                        let warnings_count = self.warnings_count() + 1;
-                        self.warnings_count.set(warnings_count);
-                    }
-                    if is_error {
-                        let errors_count = self.errors_count() + 1;
-                        self.errors_count.set(errors_count);
-                    }
-                    // The --quiet flag follows ESLint's --quiet behavior as documented here: https://eslint.org/docs/latest/use/command-line-interface#--quiet
-                    // Note that it does not disable ALL diagnostics, only Warning diagnostics
-                    else if self.quiet {
-                        continue;
-                    }
-                }
+        // while let Ok(Some((path, diagnostics))) = self.receiver.recv() {
+        //     let mut output = String::new();
+        //     for diagnostic in diagnostics {
+        //         let severity = diagnostic.severity();
+        //         let is_warning = severity == Some(Severity::Warning);
+        //         let is_error = severity == Some(Severity::Error) || severity.is_none();
+        //         if is_warning || is_error {
+        //             if is_warning {
+        //                 let warnings_count = self.warnings_count() + 1;
+        //                 self.warnings_count.set(warnings_count);
+        //             }
+        //             if is_error {
+        //                 let errors_count = self.errors_count() + 1;
+        //                 self.errors_count.set(errors_count);
+        //             }
+        //             // The --quiet flag follows ESLint's --quiet behavior as documented here: https://eslint.org/docs/latest/use/command-line-interface#--quiet
+        //             // Note that it does not disable ALL diagnostics, only Warning diagnostics
+        //             else if self.quiet {
+        //                 continue;
+        //             }
+        //         }
 
-                if self.silent {
-                    continue;
-                }
+        //         if self.silent {
+        //             continue;
+        //         }
 
-                if let Some(mut err_str) = self.reporter.render_error(diagnostic) {
-                    // Skip large output and print only once
-                    if err_str.lines().any(|line| line.len() >= 400) {
-                        let minified_diagnostic = Error::new(
-                            OxcDiagnostic::warn("File is too long to fit on the screen")
-                                .with_help(alloc::format!("{path:?} seems like a minified file")),
-                        );
-                        err_str = alloc::format!("{minified_diagnostic:?}");
-                        output = err_str;
-                        break;
-                    }
-                    output.push_str(&err_str);
-                }
-            }
-            self.reporter.render_diagnostics(output.as_bytes());
-        }
+        //         if let Some(mut err_str) = self.reporter.render_error(diagnostic).clone() {
+        //             // Skip large output and print only once
+        //             if err_str.lines().any(|line| line.len() >= 400) {
+        //                 let minified_diagnostic = Error::new(
+        //                     OxcDiagnostic::warn("File is too long to fit on the screen")
+        //                         .with_help(alloc::format!("{path:?} seems like a minified file")),
+        //                 );
+        //                 err_str = alloc::format!("{minified_diagnostic:?}");
+        //                 output = err_str;
+        //                 break;
+        //             }
+        //             output.push_str(&err_str);
+        //         }
+        //     }
+        //     self.reporter.render_diagnostics(output.as_bytes());
+        // }
 
         self.reporter.finish();
     }

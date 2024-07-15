@@ -26,3 +26,5 @@ owo-colors    = { workspace = true }
 textwrap      = { workspace = true }
 unix_path = { version="1.0.1", features = ["alloc", "serde"] }
 core2 = "0.4.0"
+thingbuf = { version = "0.1.6", default-features = false,  features = ["static", "alloc"]}
+hashbrown = "0.14.5"

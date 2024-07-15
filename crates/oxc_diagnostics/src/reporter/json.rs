@@ -1,5 +1,7 @@
 use miette::JSONReportHandler;
 
+use alloc::vec::Vec;
+use alloc::string::String;
 use super::DiagnosticReporter;
 use crate::Error;
 
@@ -27,7 +29,7 @@ impl DiagnosticReporter for JsonReporter {
 #[allow(clippy::print_stdout)]
 fn format_json(diagnostics: &mut Vec<Error>) {
     let handler = JSONReportHandler::new();
-    let messages = diagnostics
+    let _messages = diagnostics
         .drain(..)
         .map(|error| {
             let mut output = String::from("\t");

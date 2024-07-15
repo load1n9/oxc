@@ -1,7 +1,6 @@
 //! Diagnostics Wrapper
 //! Exports `miette`
 #![no_std]
-#![feature(error_in_core)]
 
 mod graphic_reporter;
 mod graphical_theme;

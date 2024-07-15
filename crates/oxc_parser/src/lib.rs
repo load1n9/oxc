@@ -1,3 +1,5 @@
+#![cfg_attr(not(test), no_std)]
+
 //! Oxc Parser for JavaScript and TypeScript
 //!
 //! # Performance
@@ -58,9 +60,8 @@
 //! ```
 //!
 //! See [full linter example](https://github.com/Boshen/oxc/blob/ab2ef4f89ba3ca50c68abb2ca43e36b7793f3673/crates/oxc_linter/examples/linter.rs#L38-L39)
-
 #![allow(clippy::wildcard_imports)] // allow for use `oxc_ast::ast::*`
-
+extern crate alloc;
 mod context;
 mod cursor;
 mod modifiers;
@@ -80,6 +81,7 @@ mod lexer;
 pub mod lexer;
 
 use context::{Context, StatementContext};
+use alloc::vec::Vec;
 use oxc_allocator::Allocator;
 use oxc_ast::{
     ast::{Expression, Program},
@@ -100,7 +102,7 @@ use crate::{
 // 1. `Span`'s `start` and `end` are `u32`s, which limits length to `u32::MAX` bytes.
 // 2. Rust's allocator APIs limit allocations to `isize::MAX`.
 // https://doc.rust-lang.org/std/alloc/struct.Layout.html#method.from_size_align
-pub const MAX_LEN: usize = if std::mem::size_of::<usize>() >= 8 {
+pub const MAX_LEN: usize = if core::mem::size_of::<usize>() >= 8 {
     // 64-bit systems
     u32::MAX as usize
 } else {
@@ -236,7 +238,7 @@ mod parser_parse {
         /// # Errors
         ///
         /// * Syntax Error
-        pub fn parse_expression(self) -> std::result::Result<Expression<'a>, Vec<OxcDiagnostic>> {
+        pub fn parse_expression(self) -> core::result::Result<Expression<'a>, Vec<OxcDiagnostic>> {
             let unique = UniquePromise::new();
             let parser = ParserImpl::new(
                 self.allocator,
@@ -303,7 +305,7 @@ impl<'a> ParserImpl<'a> {
             lexer: Lexer::new(allocator, source_text, source_type, unique),
             source_type,
             source_text,
-            errors: vec![],
+            errors: alloc::vec![],
             token: Token::default(),
             prev_token_end: 0,
             state: ParserState::default(),
@@ -340,10 +342,10 @@ impl<'a> ParserImpl<'a> {
         ParserReturn { program, errors, trivias, panicked }
     }
 
-    pub fn parse_expression(mut self) -> std::result::Result<Expression<'a>, Vec<OxcDiagnostic>> {
+    pub fn parse_expression(mut self) -> core::result::Result<Expression<'a>, Vec<OxcDiagnostic>> {
         // initialize cur_token and prev_token by moving onto the first token
         self.bump_any();
-        let expr = self.parse_expr().map_err(|diagnostic| vec![diagnostic])?;
+        let expr = self.parse_expr().map_err(|diagnostic| alloc::vec![diagnostic])?;
         let errors = self.lexer.errors.into_iter().chain(self.errors).collect::<Vec<_>>();
         if !errors.is_empty() {
             return Err(errors);

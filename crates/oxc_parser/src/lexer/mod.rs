@@ -27,7 +27,7 @@ mod typescript;
 mod unicode;
 mod whitespace;
 
-use std::collections::VecDeque;
+use alloc::collections::VecDeque;
 
 use oxc_allocator::Allocator;
 use oxc_ast::ast::RegExpFlags;
@@ -80,7 +80,7 @@ pub struct Lexer<'a> {
 
     token: Token,
 
-    pub(crate) errors: Vec<OxcDiagnostic>,
+    pub(crate) errors: alloc::vec::Vec<OxcDiagnostic>,
 
     lookahead: VecDeque<Lookahead<'a>>,
 
@@ -120,7 +120,7 @@ impl<'a> Lexer<'a> {
             source,
             source_type,
             token,
-            errors: vec![],
+            errors: alloc::vec![],
             lookahead: VecDeque::with_capacity(4), // 4 is the maximum lookahead for TypeScript
             context: LexerContext::Regular,
             trivia_builder: TriviaBuilder::default(),

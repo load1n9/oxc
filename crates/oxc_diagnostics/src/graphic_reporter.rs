@@ -4,6 +4,8 @@
 #![allow(clippy::nursery)]
 #![allow(dead_code)]
 
+use alloc::string::String;
+use alloc::vec::Vec;
 /// origin file: https://github.com/zkat/miette/blob/75fea0935e495d0215518c80d32dd820910982e3/src/handlers/graphical.rs#L1
 use core::fmt::{self, Write};
 
@@ -196,17 +198,17 @@ impl GraphicalReportHandler {
         self.render_snippets(f, diagnostic, src)?;
         self.render_footer(f, diagnostic)?;
         self.render_related(f, diagnostic, src)?;
-        if let Some(footer) = &self.footer {
+        if let Some(footer) = &self.footer.clone() {
             writeln!(f)?;
             let width = self.termwidth.saturating_sub(4);
             let mut opts = textwrap::Options::new(width)
                 .initial_indent("  ")
                 .subsequent_indent("  ")
                 .break_words(self.break_words);
-            if let Some(word_separator) = self.word_separator {
+            if let Some(word_separator) = self.word_separator.clone() {
                 opts = opts.word_separator(word_separator);
             }
-            if let Some(word_splitter) = self.word_splitter {
+            if let Some(word_splitter) = self.word_splitter.clone() {
                 opts = opts.word_splitter(word_splitter);
             }
 
@@ -268,7 +270,7 @@ impl GraphicalReportHandler {
         if let Some(word_separator) = self.word_separator {
             opts = opts.word_separator(word_separator);
         }
-        if let Some(word_splitter) = self.word_splitter {
+        if let Some(word_splitter) = self.word_splitter.clone() {
             opts = opts.word_splitter(word_splitter);
         }
 
@@ -340,15 +342,15 @@ impl GraphicalReportHandler {
     fn render_footer(&self, f: &mut impl fmt::Write, diagnostic: &(dyn Diagnostic)) -> fmt::Result {
         if let Some(help) = diagnostic.help() {
             let width = self.termwidth.saturating_sub(4);
-            let initial_indent = "  help: ".style(self.theme.styles.help);
+            let initial_indent = "  help: ".style(self.theme.styles.help).to_string();
             let mut opts = textwrap::Options::new(width)
-                .initial_indent(&initial_indent.to_string())
+                .initial_indent(&initial_indent)
                 .subsequent_indent("        ")
                 .break_words(self.break_words);
             if let Some(word_separator) = self.word_separator {
                 opts = opts.word_separator(word_separator);
             }
-            if let Some(word_splitter) = self.word_splitter {
+            if let Some(word_splitter) = self.word_splitter.clone() {
                 opts = opts.word_splitter(word_splitter);
             }
 
@@ -419,7 +421,7 @@ impl GraphicalReportHandler {
                 // The snippets will overlap, so we create one Big Chunky Boi
                 let left_end = left.offset() + left.len();
                 let right_end = right.offset() + right.len();
-                let new_end = std::cmp::max(left_end, right_end);
+                let new_end = core::cmp::max(left_end, right_end);
 
                 let new_span = LabeledSpan::new(
                     left.label().map(String::from),
@@ -513,7 +515,7 @@ impl GraphicalReportHandler {
             None => contents,
         };
 
-        if let Some(source_name) = primary_contents.name() {
+        if let Some(source_name) = primary_contents.name().clone() {
             let source_name = source_name.style(self.theme.styles.link);
             writeln!(
                 f,
@@ -597,7 +599,7 @@ impl GraphicalReportHandler {
         // no line number!
         self.write_no_linum(f, linum_width)?;
 
-        if let Some(label_parts) = label.label_parts() {
+        if let Some(label_parts) = label.label_parts().clone() {
             // if it has a label, how long is it?
             let (first, rest) = label_parts
                 .split_first()
@@ -995,7 +997,7 @@ impl GraphicalReportHandler {
         writeln!(f, "{}", underlines)?;
 
         for hl in single_liners.iter().rev() {
-            if let Some(label) = hl.label_parts() {
+            if let Some(label) = hl.label_parts().clone() {
                 if label.len() == 1 {
                     self.write_label_text(
                         f,
@@ -1114,7 +1116,7 @@ impl GraphicalReportHandler {
         &'a self,
         source: &'a dyn SourceCode,
         context_span: &'a SourceSpan,
-    ) -> Result<(Box<dyn SpanContents<'a> + 'a>, Vec<Line>), fmt::Error> {
+    ) -> Result<(alloc::boxed::Box<dyn SpanContents<'a> + 'a>, Vec<Line>), fmt::Error> {
         let context_data = source
             .read_span(context_span, self.context_lines, self.context_lines)
             .map_err(|_| fmt::Error)?;
@@ -1126,7 +1128,7 @@ impl GraphicalReportHandler {
         let mut line_str = String::with_capacity(context.len());
         let mut lines = Vec::with_capacity(1);
         let mut iter = context.chars().peekable();
-        while let Some(char) = iter.next() {
+        while let Some(char) = iter.next().clone() {
             offset += char.len_utf8();
             let mut at_end_of_file = false;
             match char {

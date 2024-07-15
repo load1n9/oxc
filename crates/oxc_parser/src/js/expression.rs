@@ -1,4 +1,4 @@
-use std::cell::Cell;
+use core::cell::Cell;
 
 use oxc_allocator::Box;
 use oxc_ast::ast::*;

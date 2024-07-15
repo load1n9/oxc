@@ -6,8 +6,8 @@ pub struct TriviaBuilder {
     // NOTE(lucab): This is a set of unique comments. Duplicated
     // comments could be generated in case of rewind; they are
     // filtered out at insertion time.
-    comments: Vec<Comment>,
-    irregular_whitespaces: Vec<Span>,
+    comments: alloc::vec::Vec<Comment>,
+    irregular_whitespaces: alloc::vec::Vec<Span>,
 }
 
 impl TriviaBuilder {

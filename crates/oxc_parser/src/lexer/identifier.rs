@@ -1,4 +1,4 @@
-use std::cmp::max;
+use core::cmp::max;
 
 use oxc_allocator::String;
 use oxc_span::Span;

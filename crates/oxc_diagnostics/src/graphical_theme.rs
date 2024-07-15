@@ -7,7 +7,7 @@
 
 use miette::ThemeCharacters;
 use owo_colors::Style;
-
+use alloc::vec::Vec;
 /**
 Theme used by [`GraphicalReportHandler`](crate::GraphicalReportHandler) to
 render fancy [`Diagnostic`](crate::Diagnostic) reports.
@@ -61,13 +61,14 @@ impl GraphicalTheme {
 
 impl Default for GraphicalTheme {
     fn default() -> Self {
-        match core::env::var("NO_COLOR") {
-            _ if !core2::io::stdout() || !std::io::stderr() => {
-                Self::none()
-            }
-            Ok(string) if string != "0" => Self::unicode_nocolor(),
-            _ => Self::unicode(),
-        }
+        // match alloc::env::var("NO_COLOR") {
+        //     // _ if !core2::io::stdout() || !std::io::stderr() => {
+        //     //     Self::none()
+        //     // }
+        //     Ok(string) if string != "0" => Self::unicode_nocolor(),
+        //     _ => Self::unicode(),
+        // }
+        Self::unicode()
     }
 }
 

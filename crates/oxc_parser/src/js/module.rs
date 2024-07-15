@@ -3,6 +3,7 @@ use oxc_ast::ast::*;
 use oxc_diagnostics::Result;
 use oxc_span::{GetSpan, Span};
 use rustc_hash::FxHashMap;
+use alloc::string::ToString;
 
 use super::FunctionKind;
 use crate::{diagnostics, lexer::Kind, modifiers::Modifiers, Context, ParserImpl};

@@ -5,8 +5,8 @@ use crate::modifiers::Modifier;
 
 #[cold]
 pub fn redeclaration(x0: &str, declare_span: Span, redeclare_span: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Identifier `{x0}` has already been declared")).with_labels([
-        declare_span.label(format!("`{x0}` has already been declared here")),
+    OxcDiagnostic::error(alloc::format!("Identifier `{x0}` has already been declared")).with_labels([
+        declare_span.label(alloc::format!("`{x0}` has already been declared here")),
         redeclare_span.label("It can not be redeclared here"),
     ])
 }
@@ -28,8 +28,8 @@ pub fn unexpected_token(span0: Span) -> OxcDiagnostic {
 
 #[cold]
 pub fn expect_token(x0: &str, x1: &str, span: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Expected `{x0}` but found `{x1}`"))
-        .with_label(span.label(format!("`{x0}` expected")))
+    OxcDiagnostic::error(alloc::format!("Expected `{x0}` but found `{x1}`"))
+        .with_label(span.label(alloc::format!("`{x0}` expected")))
 }
 
 #[cold]
@@ -44,7 +44,7 @@ pub fn unicode_escape_sequence(span0: Span) -> OxcDiagnostic {
 
 #[cold]
 pub fn invalid_character(x0: char, span1: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Invalid Character `{x0}`")).with_label(span1)
+    OxcDiagnostic::error(alloc::format!("Invalid Character `{x0}`")).with_label(span1)
 }
 
 #[cold]
@@ -64,13 +64,13 @@ pub fn unterminated_string(span0: Span) -> OxcDiagnostic {
 
 #[cold]
 pub fn reg_exp_flag(x0: char, span1: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Unexpected flag {x0} in regular expression literal"))
+    OxcDiagnostic::error(alloc::format!("Unexpected flag {x0} in regular expression literal"))
         .with_label(span1)
 }
 
 #[cold]
 pub fn reg_exp_flag_twice(x0: char, span1: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Flag {x0} is mentioned twice in regular expression literal"))
+    OxcDiagnostic::error(alloc::format!("Flag {x0} is mentioned twice in regular expression literal"))
         .with_label(span1)
 }
 
@@ -86,7 +86,7 @@ pub fn unterminated_reg_exp(span0: Span) -> OxcDiagnostic {
 
 #[cold]
 pub fn invalid_number(x0: &str, span1: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Invalid Number {x0}")).with_label(span1)
+    OxcDiagnostic::error(alloc::format!("Invalid Number {x0}")).with_label(span1)
 }
 
 #[cold]
@@ -240,13 +240,13 @@ pub fn constructor_async(span0: Span) -> OxcDiagnostic {
 
 #[cold]
 pub fn identifier_async(x0: &str, span1: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Cannot use `{x0}` as an identifier in an async context"))
+    OxcDiagnostic::error(alloc::format!("Cannot use `{x0}` as an identifier in an async context"))
         .with_label(span1)
 }
 
 #[cold]
 pub fn identifier_generator(x0: &str, span1: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Cannot use `{x0}` as an identifier in a generator context"))
+    OxcDiagnostic::error(alloc::format!("Cannot use `{x0}` as an identifier in a generator context"))
         .with_label(span1)
 }
 
@@ -268,14 +268,14 @@ pub fn export_lone_surrogate(span0: Span) -> OxcDiagnostic {
 #[cold]
 pub fn export_named_string(x0: &str, x1: &str, span2: Span) -> OxcDiagnostic {
     OxcDiagnostic::error("A string literal cannot be used as an exported binding without `from`")
-        .with_help(format!("Did you mean `export {{ {x0} as {x1} }} from 'some-module'`?"))
+        .with_help(alloc::format!("Did you mean `export {{ {x0} as {x1} }} from 'some-module'`?"))
         .with_label(span2)
 }
 
 #[cold]
 pub fn export_reserved_word(x0: &str, x1: &str, span2: Span) -> OxcDiagnostic {
     OxcDiagnostic::error("A reserved word cannot be used as an exported binding without `from`")
-        .with_help(format!("Did you mean `export {{ {x0} as {x1} }} from 'some-module'`?"))
+        .with_help(alloc::format!("Did you mean `export {{ {x0} as {x1} }} from 'some-module'`?"))
         .with_label(span2)
 }
 
@@ -291,8 +291,8 @@ pub fn empty_parenthesized_expression(span0: Span) -> OxcDiagnostic {
 
 #[cold]
 pub fn illegal_newline(x0: &str, span1: Span, span2: Span) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Illegal newline after {x0}")).with_labels([
-        span1.label(format!("{x0} starts here")),
+    OxcDiagnostic::error(alloc::format!("Illegal newline after {x0}")).with_labels([
+        span1.label(alloc::format!("{x0} starts here")),
         span2.label("A newline is not expected here"),
     ])
 }
@@ -397,7 +397,7 @@ pub fn static_constructor(span0: Span) -> OxcDiagnostic {
 
 #[cold]
 pub fn jsx_element_no_match(span0: Span, span1: Span, name: &str) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("Expected corresponding JSX closing tag for '{name}'."))
+    OxcDiagnostic::error(alloc::format!("Expected corresponding JSX closing tag for '{name}'."))
         .with_labels([span0, span1])
 }
 
@@ -405,14 +405,14 @@ pub fn jsx_element_no_match(span0: Span, span1: Span, name: &str) -> OxcDiagnost
 
 #[cold]
 pub fn modifier_cannot_be_used_here(modifier: &Modifier) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("'{}' modifier cannot be used here.", modifier.kind))
+    OxcDiagnostic::error(alloc::format!("'{}' modifier cannot be used here.", modifier.kind))
         .with_label(modifier.span)
 }
 
 /// TS(1030)
 #[cold]
 pub fn modifier_already_seen(modifier: &Modifier) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!("TS1030: '{}' modifier already seen.", modifier.kind))
+    OxcDiagnostic::error(alloc::format!("TS1030: '{}' modifier already seen.", modifier.kind))
         .with_label(modifier.span)
         .with_help("Remove the duplicate modifier.")
 }
@@ -420,7 +420,7 @@ pub fn modifier_already_seen(modifier: &Modifier) -> OxcDiagnostic {
 /// TS(1273)
 #[cold]
 pub fn cannot_appear_on_a_type_parameter(modifier: &Modifier) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!(
+    OxcDiagnostic::error(alloc::format!(
         "'{}' modifier cannot be used on a type parameter.",
         modifier.kind
     ))
@@ -428,7 +428,7 @@ pub fn cannot_appear_on_a_type_parameter(modifier: &Modifier) -> OxcDiagnostic {
 }
 /// TS(1090)
 pub fn cannot_appear_on_a_parameter(modifier: &Modifier) -> OxcDiagnostic {
-    OxcDiagnostic::error(format!(
+    OxcDiagnostic::error(alloc::format!(
         "TS1090: '{}' modifier cannot appear on a parameter.",
         modifier.kind
     ))

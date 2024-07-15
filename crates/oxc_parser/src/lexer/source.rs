@@ -1,6 +1,6 @@
 #![allow(clippy::unnecessary_safety_comment)]
 
-use std::{marker::PhantomData, slice, str};
+use core::{marker::PhantomData, slice, str};
 
 use super::search::SEARCH_BATCH_SIZE;
 use crate::{UniquePromise, MAX_LEN};
@@ -274,7 +274,7 @@ impl<'a> Source<'a> {
         // yield a valid UTF-8 string.
         let len = end.addr() - start.addr();
         let slice = slice::from_raw_parts(start.ptr, len);
-        std::str::from_utf8_unchecked(slice)
+        core::str::from_utf8_unchecked(slice)
     }
 
     /// Get current position in source, relative to start of source.

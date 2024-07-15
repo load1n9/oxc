@@ -1,4 +1,5 @@
 use alloc::borrow::Cow;
+use alloc::string::String;
 use core2::io::{BufWriter, Stdout, Write};
 
 use super::{writer, DiagnosticReporter, Info};

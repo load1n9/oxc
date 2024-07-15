@@ -1,7 +1,7 @@
 //! Parsing utilities for converting Javascript numbers to Rust f64
 //! code copied from [jsparagus](https://github.com/mozilla-spidermonkey/jsparagus/blob/master/crates/parser/src/numeric_value.rs)
 
-use std::borrow::Cow;
+use alloc::borrow::Cow;
 
 use num_bigint::BigInt;
 use num_traits::Num as _;
@@ -238,6 +238,8 @@ fn parse_big_int_without_underscores(s: &str, kind: Kind) -> Result<BigInt, &'st
 #[cfg(test)]
 #[allow(clippy::unreadable_literal, clippy::mixed_case_hex_literals)]
 mod test {
+    use alloc::vec;
+
     use super::{
         binary_byte_to_value, hex_byte_to_value, octal_byte_to_value, parse_float, parse_int, Kind,
     };
@@ -312,7 +314,7 @@ mod test {
     #[allow(clippy::excessive_precision)]
     fn test_large_number_of_leading_zeros() {
         assert_all_ints_eq(
-            vec![("000000000000000000000000000000000000000000000000000000001", 1)],
+            alloc::vec![("000000000000000000000000000000000000000000000000000000001", 1)],
             Kind::Decimal,
             false,
         );

@@ -113,7 +113,7 @@ impl Modifier {
 impl TryFrom<Token> for Modifier {
     type Error = <ModifierKind as TryFrom<Kind>>::Error;
 
-    fn try_from(tok: Token) -> std::result::Result<Self, Self::Error> {
+    fn try_from(tok: Token) -> core::result::Result<Self, Self::Error> {
         ModifierKind::try_from(tok.kind).map(|kind| Self { span: tok.span(), kind })
     }
 }
@@ -265,7 +265,7 @@ impl ModifierKind {
 }
 impl TryFrom<Kind> for ModifierKind {
     type Error = ();
-    fn try_from(kind: Kind) -> std::result::Result<Self, Self::Error> {
+    fn try_from(kind: Kind) -> core::result::Result<Self, Self::Error> {
         match kind {
             Kind::Abstract => Ok(Self::Abstract),
             Kind::Declare => Ok(Self::Declare),
@@ -287,8 +287,8 @@ impl TryFrom<Kind> for ModifierKind {
     }
 }
 
-impl std::fmt::Display for ModifierKind {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Display for ModifierKind {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.write_str(self.as_str())
     }
 }

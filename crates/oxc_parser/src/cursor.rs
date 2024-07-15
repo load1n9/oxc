@@ -332,7 +332,7 @@ impl<'a> ParserImpl<'a> {
     }
 
     pub(crate) fn consume_decorators(&mut self) -> Vec<'a, Decorator<'a>> {
-        let decorators = std::mem::take(&mut self.state.decorators);
+        let decorators = core::mem::take(&mut self.state.decorators);
         self.ast.vec_from_iter(decorators)
     }
 

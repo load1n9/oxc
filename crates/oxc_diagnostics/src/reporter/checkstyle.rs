@@ -1,5 +1,8 @@
 use alloc::borrow::Cow;
+use alloc::vec::Vec;
+use alloc::string::String;
 use alloc::format;
+use hashbrown::HashMap;
 use super::{DiagnosticReporter, Info};
 use crate::{Error, Severity};
 
@@ -28,7 +31,7 @@ fn format_checkstyle(diagnostics: &[Error]) {
     for info in infos {
         grouped.entry(info.filename.clone()).or_default().push(info);
     }
-    let messages = grouped.into_values().map(|infos| {
+    let _messages = grouped.into_values().map(|infos| {
          let messages = infos
              .iter()
              .fold(String::new(), |mut acc, info| {
@@ -37,7 +40,7 @@ fn format_checkstyle(diagnostics: &[Error]) {
                      Severity::Error => "error",
                      _ => "warning",
                  };
-                 let message = rule_id.as_ref().map_or_else(|| xml_escape(message.as_str()), |rule_id| Cow::Owned(format!("{} ({rule_id})", xml_escape(message))));
+                 let message = rule_id.as_ref().map_or_else(|| xml_escape(message), |rule_id| Cow::Owned(format!("{} ({rule_id})", xml_escape(message))));
                  let source = rule_id.as_ref().map_or_else(|| Cow::Borrowed(""), |rule_id| Cow::Owned(format!("eslint.rules.{rule_id}")));
                  let line = format!(r#"<error line="{line}" column="{column}" severity="{severity}" message="{message}" source="{source}" />"#);
                  acc.push_str(&line);
